@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import useSWR from "swr";
 import { Textarea } from "./ui/textarea";
 import { fetchSuggestion } from "@/lib/fetchSuggestion";
@@ -16,13 +16,41 @@ export default function PromptInput() {
     revalidateOnFocus: false,
   });
 
+  const submitPrompt = async (useSuggestion?: boolean) => {
+    const inputPrompt = input;
+    setInput("");
+
+    const prompt = useSuggestion ? suggestion : inputPrompt;
+
+    console.log("prompt: ", prompt);
+
+    try {
+      const res = await fetch("/api/generateImage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: prompt }),
+      });
+
+      if (!res.ok) throw new Error("Failed to generate image");
+
+      const data = await res.json();
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await submitPrompt();
+  };
+
   const loading = isLoading || isValidating;
 
   return (
     <div className="m-10">
       <form
         className="flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x"
-        action=""
+        onSubmit={handleSubmit}
       >
         <Textarea
           placeholder={
@@ -45,6 +73,7 @@ export default function PromptInput() {
         </button>
         <button
           type="button"
+          onClick={() => submitPrompt(true)}
           className="p-4 bg-violet-400 text-white transition-colors duration-200 font-bold disabled:bg-gray-400"
         >
           Use Suggestion

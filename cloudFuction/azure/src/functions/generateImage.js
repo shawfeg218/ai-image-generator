@@ -44,8 +44,14 @@ app.http("generateImage", {
 
       await blockBlobClient.uploadData(arrayBuffer);
       console.log("upload image success");
+
+      return { body: "Generate image success" };
     } catch (err) {
-      console.log("upload image failed: ", err.message);
+      console.log("Generate image failed: ", err.message);
+      return {
+        status: 500,
+        body: "Generate image failed",
+      };
     }
   },
 });

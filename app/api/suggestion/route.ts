@@ -1,5 +1,5 @@
 export async function GET(request: Request) {
-  const response = await fetch("http://localhost:7071/api/getSuggestion", {
+  const response = await fetch(`${process.env.CLOUD_FUNC_URL}/api/getSuggestion`, {
     cache: "no-store",
   });
 

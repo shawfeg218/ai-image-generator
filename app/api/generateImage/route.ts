@@ -4,15 +4,24 @@ export async function POST(request: Request) {
   const req = await request.json();
   const prompt = req.prompt;
 
-  const response = await fetch("", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ prompt }),
-  });
+  try {
+    const response = await fetch(`${process.env.CLOUD_FUNC_URL}/api/generateImage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt }),
+    });
 
-  const textData = await response.text();
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
 
-  return NextResponse.json(textData);
+    const textData = await response.text();
+
+    return NextResponse.json(textData);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.error();
+  }
 }
