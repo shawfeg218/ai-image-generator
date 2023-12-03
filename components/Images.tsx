@@ -28,15 +28,16 @@ export default function Images() {
         </p>
       )}
 
-      <Button className="fixed bottom-10 right-10" onClick={() => refreshImages(images)}>
+      <Button className="fixed z-20 bottom-10 right-10" onClick={() => refreshImages(images)}>
         {!isLoading && isValidating ? "Refreshing..." : "Refresh Images"}
       </Button>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 px-0 md:px-10">
+
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 px-0 md:px-10 md:pb-10">
         {images?.imageUrls?.map((image: Image, index: number) => {
           return (
             <div
               key={image.name}
-              className={`relative cursor-help ${
+              className={`${
                 index === 0 && "md:col-span-2 md:row-span-2"
               } hover:scale-[1.03] transition-transform duration-200 ease-in-out`}
             >

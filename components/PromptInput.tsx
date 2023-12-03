@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { Textarea } from "./ui/textarea";
 import { fetchSuggestion } from "@/lib/fetchSuggestion";
 import { fetchImage } from "@/lib/fetchImage";
+import toast from "react-hot-toast";
 
 export default function PromptInput() {
   const [input, setInput] = useState("");
@@ -27,23 +28,25 @@ export default function PromptInput() {
 
     const prompt = useSuggestion ? suggestion : inputPrompt;
 
-    console.log("prompt: ", prompt);
+    const notificationPrompt = prompt.slice(0, 20);
 
-    try {
-      const res = await fetch("/api/generateImage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: prompt }),
-      });
+    const notification = toast.loading(`DALL-E is creating: ${notificationPrompt}...`);
 
-      if (!res.ok) throw new Error("Failed to generate image");
+    const res = await fetch("/api/generateImage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: prompt }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      updateImages();
-    } catch (err) {
-      alert(err);
+    if (data.error) {
+      toast.error("Error creating image.", { id: notification });
+    } else {
+      toast.success("Your AI Art has been Generated!", { id: notification });
     }
+
+    updateImages();
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
