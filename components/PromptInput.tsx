@@ -84,7 +84,7 @@ export default function PromptInput() {
         <button
           type="button"
           onClick={() => submitPrompt(true)}
-          className="p-4 bg-violet-400 text-white transition-colors duration-200 font-bold disabled:bg-gray-400"
+          className="p-4 bg-violet-500 text-white transition-colors duration-200 font-bold disabled:bg-gray-400"
         >
           Use Suggestion
         </button>
