@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import useSWR from "swr";
 import { Textarea } from "./ui/textarea";
 import { fetchSuggestion } from "@/lib/fetchSuggestion";
+import { fetchImage } from "@/lib/fetchImage";
 
 export default function PromptInput() {
   const [input, setInput] = useState("");
@@ -13,6 +14,10 @@ export default function PromptInput() {
     // for fetching new suggestions
     mutate,
   } = useSWR("/api/suggestion", fetchSuggestion, {
+    revalidateOnFocus: false,
+  });
+
+  const { mutate: updateImages } = useSWR("images", fetchImage, {
     revalidateOnFocus: false,
   });
 
@@ -34,6 +39,8 @@ export default function PromptInput() {
       if (!res.ok) throw new Error("Failed to generate image");
 
       const data = await res.json();
+
+      updateImages();
     } catch (err) {
       alert(err);
     }

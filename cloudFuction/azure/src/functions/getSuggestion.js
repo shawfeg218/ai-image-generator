@@ -11,14 +11,14 @@ app.http("getSuggestion", {
         {
           role: "system",
           content:
-            "Write a random text prompt for DALL-E to generate an image, this prompt will be shown to the user, include a details such as the genre and what type of painting it should be. For example: 'oil painting, watercolor, photo-realistic, 4k, abstract, modern, black and white etc. Do not wrap the answer in quotes.",
+            "Write a random text prompt for DALL-E to generate an image, this prompt will be shown to the user. The answer should be a single sentence and do not wrap the answer in quotes.",
         },
         {
           role: "user",
           content: "Write a random text prompt for DALL-E to generate an image.",
         },
       ],
-      max_tokens: 50,
+      max_tokens: 45,
       temperature: 0.9,
     });
 

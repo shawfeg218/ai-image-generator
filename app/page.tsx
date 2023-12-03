@@ -1,7 +1,9 @@
+import Images from "@/components/Images";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>ChatGpt clone</h1>
+    <main className="mx-0">
+      <Images />
     </main>
   );
 }
