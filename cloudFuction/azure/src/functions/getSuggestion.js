@@ -18,7 +18,7 @@ app.http("getSuggestion", {
           content: "Write a random text prompt for DALL-E to generate an image.",
         },
       ],
-      max_tokens: 64,
+      max_tokens: 50,
       temperature: 0.9,
     });
 

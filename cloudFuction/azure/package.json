@@ -1,5 +1,5 @@
 {
-  "name": "azure",
+  "name": "ai-img-azure-cloud-func",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
+    "@azure/storage-blob": "^12.17.0",
+    "axios": "^1.6.2",
     "openai": "^4.20.1"
   },
   "main": "src/functions/*.js"
