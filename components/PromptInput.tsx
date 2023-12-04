@@ -5,11 +5,14 @@ import { Textarea } from "./ui/textarea";
 import toast from "react-hot-toast";
 import { getSuggestion } from "@/actions/getSuggestion";
 import { generateImage } from "@/actions/generateImage";
+import { Button } from "./ui/button";
+import { refresh } from "@/actions/refresh";
 
 export default function PromptInput() {
   const [input, setInput] = useState("");
   const [suggestion, setSuggestion] = useState("");
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchSuggestion();
@@ -35,7 +38,7 @@ export default function PromptInput() {
 
     const prompt = useSuggestion ? suggestion : inputPrompt;
 
-    const notificationPrompt = prompt.slice(0, 20);
+    const notificationPrompt = prompt.slice(0, 35);
 
     const notification = toast.loading(`DALL-E is creating: ${notificationPrompt}...`);
     try {
@@ -53,8 +56,26 @@ export default function PromptInput() {
     await submitPrompt();
   };
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refresh();
+    } catch (error) {
+      console.log("Error refreshing");
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   return (
     <div className="m-10">
+      <Button
+        className="fixed z-20 bottom-10 right-10"
+        onClick={handleRefresh}
+        disabled={refreshing}
+      >
+        {refreshing ? "Refreshing..." : "Refresh"}
+      </Button>
       <form
         className="flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x"
         onSubmit={handleSubmit}

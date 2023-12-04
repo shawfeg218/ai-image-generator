@@ -1,11 +1,6 @@
+import { getImages } from "@/lib/getImages";
+
 export async function GET(request: Request) {
-  const response = await fetch(`${process.env.CLOUD_FUNC_URL}/api/getImages`, {
-    cache: "no-store",
-  });
-
-  const blob = await response.blob();
-  const textData = await blob.text();
-  const data = JSON.parse(textData);
-
-  return new Response(JSON.stringify(data), { status: 200 });
+  const images = await getImages();
+  return new Response(JSON.stringify(images));
 }
