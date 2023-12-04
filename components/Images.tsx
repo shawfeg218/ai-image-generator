@@ -1,3 +1,4 @@
+import { getImages } from "@/actions/getImages";
 import Image from "next/image";
 
 type Image = {
@@ -5,12 +6,8 @@ type Image = {
   url: string;
 };
 
-const url = process.env.URL || "http://localhost:3000";
-
 export default async function Images() {
-  const res = await fetch(`${url}/api/getImages`, { next: { tags: ["images"] } });
-  const images = await res.json();
-
+  const images = await getImages();
   // console.log(images);
 
   return (

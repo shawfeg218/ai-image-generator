@@ -4,7 +4,7 @@ import { openai } from "@/lib/openai";
 import axios from "axios";
 import { generateSASToken } from "@/lib/generateSASToken";
 import { BlobServiceClient } from "@azure/storage-blob";
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 const accountName = process.env.ACCOUNTNAME;
 const containerName = "images";
@@ -47,7 +47,7 @@ export async function generateImage(prompt: string) {
     await blockBlobClient.uploadData(arrayBuffer);
     console.log("upload image success");
 
-    revalidateTag("images");
+    revalidatePath("/");
   } catch (err) {
     console.log("Error in generateImage: ", err);
   }

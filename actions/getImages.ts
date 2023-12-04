@@ -1,3 +1,4 @@
+"use server";
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { generateSASToken } from "@/lib/generateSASToken";
 
