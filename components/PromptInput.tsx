@@ -1,22 +1,34 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import useSWR from "swr";
 import { Textarea } from "./ui/textarea";
 import { fetchSuggestion } from "@/lib/fetchSuggestion";
 import { fetchImage } from "@/lib/fetchImage";
 import toast from "react-hot-toast";
+import { getSuggestion } from "@/actions/getSuggestion";
 
 export default function PromptInput() {
   const [input, setInput] = useState("");
-  const {
-    data: suggestion,
-    isLoading,
-    isValidating,
-    // for fetching new suggestions
-    mutate,
-  } = useSWR("/api/suggestion", fetchSuggestion, {
-    revalidateOnFocus: false,
-  });
+  const [suggestion, setSuggestion] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchSuggestion();
+  }, []);
+
+  const fetchSuggestion = async () => {
+    try {
+      setLoading(true);
+      const res = await getSuggestion();
+      if (res) {
+        setSuggestion(res);
+      }
+    } catch (error) {
+      console.log("Error fetching suggestion");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const { mutate: updateImages } = useSWR("images", fetchImage, {
     revalidateOnFocus: false,
@@ -54,8 +66,6 @@ export default function PromptInput() {
     await submitPrompt();
   };
 
-  const loading = isLoading || isValidating;
-
   return (
     <div className="m-10">
       <form
@@ -90,7 +100,7 @@ export default function PromptInput() {
         </button>
         <button
           type="button"
-          onClick={mutate}
+          onClick={fetchSuggestion}
           className="p-4 bg-white text-violet-500 transition-colors duration-200 font-bold border-none 
         md:rounded-r-md md:rounded-bl-none"
         >
