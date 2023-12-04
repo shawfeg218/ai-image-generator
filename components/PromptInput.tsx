@@ -1,11 +1,10 @@
 "use client";
+
 import { FormEvent, useEffect, useState } from "react";
-import useSWR from "swr";
 import { Textarea } from "./ui/textarea";
-import { fetchSuggestion } from "@/lib/fetchSuggestion";
-import { fetchImage } from "@/lib/fetchImage";
 import toast from "react-hot-toast";
 import { getSuggestion } from "@/actions/getSuggestion";
+import { generateImage } from "@/actions/generateImage";
 
 export default function PromptInput() {
   const [input, setInput] = useState("");
@@ -30,10 +29,6 @@ export default function PromptInput() {
     }
   };
 
-  const { mutate: updateImages } = useSWR("images", fetchImage, {
-    revalidateOnFocus: false,
-  });
-
   const submitPrompt = async (useSuggestion?: boolean) => {
     const inputPrompt = input;
     setInput("");
@@ -43,22 +38,14 @@ export default function PromptInput() {
     const notificationPrompt = prompt.slice(0, 20);
 
     const notification = toast.loading(`DALL-E is creating: ${notificationPrompt}...`);
+    try {
+      await generateImage(prompt);
 
-    const res = await fetch("/api/generateImage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: prompt }),
-    });
-
-    const data = await res.json();
-
-    if (data.error) {
-      toast.error("Error creating image.", { id: notification });
-    } else {
       toast.success("Your AI Art has been Generated!", { id: notification });
+    } catch (error) {
+      console.log("Error generating image");
+      toast.error("Error creating image.", { id: notification });
     }
-
-    updateImages();
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
