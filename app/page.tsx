@@ -2,7 +2,6 @@ import Images from "@/components/Images";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 900;
 
 export default function Home() {
   return (
