@@ -31,5 +31,7 @@ export async function getImages() {
     return bTimestamp - aTimestamp;
   });
 
+  console.log("getImages");
+
   return sortedImgUrls;
 }
