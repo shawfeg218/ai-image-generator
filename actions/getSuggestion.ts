@@ -5,7 +5,7 @@ import { openai } from "@/lib/openai";
 export async function getSuggestion() {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4",
       messages: [
         {
           role: "system",
@@ -22,7 +22,7 @@ export async function getSuggestion() {
       temperature: 1.5,
     });
 
-    console.log("Get suggestion from gpt-3.5-turbo");
+    console.log("Get suggestion from gpt-4");
 
     return response.choices[0].message.content;
   } catch (error) {

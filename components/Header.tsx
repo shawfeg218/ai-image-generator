@@ -10,11 +10,10 @@ export default function Header() {
 
         <div>
           <h1 className="font-bold">
-            {`Shawn's`}
             <span className="text-violet-500"> AI </span>
             Image Generator
           </h1>
-          <h2 className="text-xs">Power by DALL·E 3, GPT-3.5-Turbo & Microsoft Azure!</h2>
+          <h2 className="text-xs">Power by DALL·E 3, GPT-4 & Microsoft Azure!</h2>
         </div>
       </div>
 
