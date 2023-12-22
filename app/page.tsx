@@ -1,7 +1,8 @@
 import Images from "@/components/Images";
 import { Suspense } from "react";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+export const revalidate = 30;
 
 export default function Home() {
   return (
