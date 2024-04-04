@@ -6,7 +6,8 @@ export default function Header() {
     <header className="flex p-4 justify-between sticky top-0 bg-white z-50 shadow-md">
       {/* left */}
       <div className="flex space-x-2 items-center">
-        <Image alt="logo" src="/img/GPT-4.jpg" width={40} height={40} />
+        {/* <Image alt="logo" src="/img/GPT-4.jpg" width={40} height={40} /> */}
+        <Image alt="logo" src="/svg/SIcon.svg" width={40} height={40} />
 
         <div>
           <h1 className="font-bold">
